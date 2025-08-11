@@ -4,7 +4,7 @@
 
 This document outlines the comprehensive security measures implemented in the Production-Grade Cloud Spanner Natural Language Agent. The system is designed with security-first principles, implementing defense-in-depth strategies to protect data and ensure compliance.
 
-## 🔒 Security Architecture
+##  Security Architecture
 
 ### Defense in Depth
 
@@ -24,7 +24,7 @@ The security architecture follows a multi-layered approach:
 - **Security by Design**: Built-in from the ground up
 - **Continuous Monitoring**: Real-time security monitoring
 
-## 🛡️ Security Features
+##  Security Features
 
 ### 1. Authentication & Authorization
 
@@ -218,75 +218,8 @@ audit_entry = {
 }
 ```
 
-#### Audit Events
-- **Query Execution**: All SQL queries with results
-- **Query Rejection**: Blocked queries with reasons
-- **Authentication**: Service account access
-- **Authorization**: Permission checks
-- **System Events**: Health checks and errors
 
-#### Compliance Features
-- **GDPR**: Data minimization and right to be forgotten
-- **SOX**: Financial data protection
-- **HIPAA**: Healthcare data privacy
-- **PCI DSS**: Payment card data security
 
-### 8. Monitoring & Alerting
-
-#### Security Monitoring
-```yaml
-# Prometheus metrics
-- name: spanner_queries_total
-  help: "Total number of Spanner queries"
-  type: counter
-
-- name: spanner_queries_blocked
-  help: "Number of blocked queries"
-  type: counter
-
-- name: spanner_query_duration_seconds
-  help: "Query execution time"
-  type: histogram
-```
-
-#### Security Alerts
-- Failed authentication attempts
-- Blocked queries (potential attacks)
-- Unusual query patterns
-- Resource exhaustion
-- Service account privilege escalation
-
-## 🚨 Security Incident Response
-
-### Incident Classification
-
-| Severity | Description | Response Time |
-|----------|-------------|---------------|
-| Critical | Data breach or system compromise | 1 hour |
-| High | Unauthorized access attempt | 4 hours |
-| Medium | Suspicious activity detected | 24 hours |
-| Low | Security policy violation | 72 hours |
-
-### Response Procedures
-
-1. **Detection**: Automated monitoring and alerting
-2. **Assessment**: Impact analysis and containment
-3. **Response**: Immediate mitigation actions
-4. **Recovery**: System restoration and validation
-5. **Post-Incident**: Lessons learned and improvements
-
-## 🔍 Security Testing
-
-### Automated Security Scans
-
-#### Container Scanning
-```bash
-# Trivy vulnerability scanner
-trivy image us-central1-docker.pkg.dev/PROJECT_ID/agent-repo/spanner-agent:latest
-
-# Snyk container scanning
-snyk container test us-central1-docker.pkg.dev/PROJECT_ID/agent-repo/spanner-agent:latest
-```
 
 #### Code Security Analysis
 ```bash
@@ -323,107 +256,6 @@ snyk test
 - File system access testing
 - Network isolation verification
 
-## 📋 Compliance Checklist
 
-### Security Controls
 
-- [ ] **Access Control**
-  - [ ] Least privilege principle implemented
-  - [ ] Workload Identity configured
-  - [ ] Service account permissions documented
-  - [ ] Regular access reviews conducted
-
-- [ ] **Data Protection**
-  - [ ] Encryption at rest enabled
-  - [ ] Encryption in transit enabled
-  - [ ] Data classification implemented
-  - [ ] Data retention policies defined
-
-- [ ] **Monitoring & Logging**
-  - [ ] Comprehensive audit logging
-  - [ ] Security event monitoring
-  - [ ] Alerting configured
-  - [ ] Log retention policies
-
-- [ ] **Incident Response**
-  - [ ] Incident response plan documented
-  - [ ] Security team contacts defined
-  - [ ] Escalation procedures established
-  - [ ] Post-incident review process
-
-### Compliance Frameworks
-
-- [ ] **GDPR Compliance**
-  - [ ] Data minimization implemented
-  - [ ] Right to be forgotten supported
-  - [ ] Data processing agreements
-  - [ ] Privacy impact assessments
-
-- [ ] **SOX Compliance**
-  - [ ] Financial data protection
-  - [ ] Audit trail maintenance
-  - [ ] Access control documentation
-  - [ ] Change management procedures
-
-- [ ] **HIPAA Compliance**
-  - [ ] PHI data protection
-  - [ ] Access logging requirements
-  - [ ] Encryption standards
-  - [ ] Business associate agreements
-
-## 🔄 Security Maintenance
-
-### Regular Security Tasks
-
-#### Monthly
-- Security patch updates
-- Dependency vulnerability scanning
-- Access review and cleanup
-- Security metric review
-
-#### Quarterly
-- Penetration testing
-- Security architecture review
-- Compliance audit
-- Incident response testing
-
-#### Annually
-- Security policy review
-- Risk assessment update
-- Security training refresh
-- Business continuity testing
-
-### Security Updates
-
-#### Critical Updates
-- Zero-day vulnerabilities
-- Security patches
-- Configuration changes
-- Emergency deployments
-
-#### Regular Updates
-- Dependency updates
-- Security tool updates
-- Policy updates
-- Documentation updates
-
-## 📞 Security Contacts
-
-### Security Team
-- **Security Lead**: [security@company.com]
-- **Incident Response**: [incident@company.com]
-- **Compliance**: [compliance@company.com]
-
-### Escalation Procedures
-1. **Level 1**: Security team (24/7)
-2. **Level 2**: Security lead (business hours)
-3. **Level 3**: CISO (critical incidents)
-
-### External Contacts
-- **Google Cloud Security**: [Google Cloud Support]
-- **Kubernetes Security**: [Kubernetes Security Team]
-- **Vendor Security**: [Vendor Security Contacts]
-
----
-
-**Note**: This security documentation should be reviewed and updated regularly to ensure it reflects current security practices and compliance requirements. 
+n should be reviewed and updated regularly to ensure it reflects current security practices and compliance requirements. 
