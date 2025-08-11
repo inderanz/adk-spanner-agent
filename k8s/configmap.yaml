@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spanner-agent-config
+  labels:
+    app: spanner-agent
+    version: "2.0.0"
+    environment: "production"
+data:
+  # =============================================================================
+  # CLOUD SPANNER CONFIGURATION
+  # =============================================================================
+  
+  # Google Cloud project containing the Spanner instance
+  SPANNER_PROJECT: "extreme-gecko-466211-t1"
+  
+  # Spanner instance and database identifiers
+  # IMPORTANT: Replace these with your actual Spanner instance and database
+  SPANNER_INSTANCE: "demo-inst"
+  SPANNER_DATABASE: "demo-db"
+  
+  # =============================================================================
+  # SECURITY CONFIGURATION
+  # =============================================================================
+  
+  # Enforce read-only operations (recommended for production)
+  SPANNER_READ_ONLY: "true"
+  
+  # Maximum number of rows to return per query (prevents resource exhaustion)
+  SPANNER_MAX_ROWS: "1000"
+  
+  # Query timeout in seconds (prevents long-running queries)
+  SPANNER_QUERY_TIMEOUT: "30"
+  
+  # Enable comprehensive audit logging
+  ENABLE_AUDIT_LOGGING: "true"
+  
+  # =============================================================================
+  # VERTEX AI CONFIGURATION
+  # =============================================================================
+  
+  # Google Cloud project for Vertex AI
+  GOOGLE_CLOUD_PROJECT: "extreme-gecko-466211-t1"
+  
+  # Vertex AI region (must support the selected model)
+  GOOGLE_CLOUD_LOCATION: "us-central1"
+  
+  # AI model to use (must be available in the specified region)
+  MODEL_NAME: "gemini-2.5-flash"
+  
+  # =============================================================================
+  # MONITORING AND LOGGING
+  # =============================================================================
+  
+  # Log level (DEBUG, INFO, WARNING, ERROR)
+  LOG_LEVEL: "INFO"
+  
+  # Enable metrics collection
+  ENABLE_METRICS: "true"
+  
+  # Metrics port
+  METRICS_PORT: "8080"
+  
+  # =============================================================================
+  # PERFORMANCE CONFIGURATION
+  # =============================================================================
+  
+  # Maximum concurrent queries per pod
+  MAX_CONCURRENT_QUERIES: "10"
+  
+  # Query result cache TTL in seconds (0 = disabled)
+  QUERY_CACHE_TTL: "300"
+  
+  # =============================================================================
+  # FEATURE FLAGS
+  # =============================================================================
+  
+  # Enable query performance analysis
+  ENABLE_QUERY_ANALYSIS: "true"
+  
+  # Enable schema exploration features
+  ENABLE_SCHEMA_EXPLORATION: "true"
+  
+  # Enable table statistics
+  ENABLE_TABLE_STATISTICS: "true"
+  
+  # Enable database health monitoring
+  ENABLE_HEALTH_MONITORING: "true"
+  
+  # =============================================================================
+  # RATE LIMITING
+  # =============================================================================
+  
+  # Maximum queries per minute per user
+  RATE_LIMIT_QUERIES_PER_MINUTE: "60"
+  
+  # Maximum queries per hour per user
+  RATE_LIMIT_QUERIES_PER_HOUR: "1000"
+  
+  # =============================================================================
+  # AUDIT AND COMPLIANCE
+  # =============================================================================
+  
+  # Audit log retention days
+  AUDIT_LOG_RETENTION_DAYS: "90"
+  
+  # Enable detailed query logging
+  ENABLE_QUERY_LOGGING: "true"
+  
+  # Log query parameters (be careful with sensitive data)
+  LOG_QUERY_PARAMETERS: "false"
+  
+  # =============================================================================
+  # ERROR HANDLING
+  # =============================================================================
+  
+  # Maximum retry attempts for failed queries
+  MAX_QUERY_RETRIES: "3"
+  
+  # Retry delay in seconds
+  QUERY_RETRY_DELAY: "1"
+  
+  # =============================================================================
+  # DEVELOPMENT AND DEBUGGING
+  # =============================================================================
+  
+  # Enable debug mode (not recommended for production)
+  DEBUG_MODE: "false"
+  
+  # Enable verbose error messages
+  VERBOSE_ERRORS: "false"
