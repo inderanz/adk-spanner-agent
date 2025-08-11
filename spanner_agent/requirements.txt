@@ -1,0 +1,5 @@
+# Python dependencies for the spanner_agent
+google-adk
+google-cloud-spanner
+fastapi
+uvicorn[standard]
