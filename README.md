@@ -1,4 +1,5 @@
 # Cloud Spanner Natural Language Agent
+<img width="1464" height="879" alt="image" src="https://github.com/user-attachments/assets/4dd74d38-f710-4fdb-afc8-feb5ac90d8bb" />
 
 A comprehensive, secure, and production-ready natural language interface for Google Cloud Spanner databases built with the Google Agent Development Kit (ADK).
 
