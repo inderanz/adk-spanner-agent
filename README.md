@@ -1,8 +1,8 @@
-# Production-Grade Cloud Spanner Natural Language Agent
+# Cloud Spanner Natural Language Agent
 
 A comprehensive, secure, and production-ready natural language interface for Google Cloud Spanner databases built with the Google Agent Development Kit (ADK).
 
-## 🚀 Features
+## Features
 
 ### Core Capabilities
 - **Natural Language Query Interface**: Ask questions about your data in plain English
@@ -12,12 +12,12 @@ A comprehensive, secure, and production-ready natural language interface for Goo
 - **Production Monitoring**: Health checks, metrics, and observability
 
 ### Security Features
-- ✅ **Read-Only Operations**: Prevents destructive database operations
-- ✅ **SQL Injection Protection**: Comprehensive query validation
-- ✅ **Audit Logging**: Complete audit trail for compliance
-- ✅ **Rate Limiting**: Prevents resource exhaustion
-- ✅ **Least Privilege Access**: Minimal IAM permissions
-- ✅ **Workload Identity**: Secure authentication without service account keys
+-  **Read-Only Operations**: Prevents destructive database operations
+-  **SQL Injection Protection**: Comprehensive query validation
+-  **Audit Logging**: Complete audit trail for compliance
+-  **Rate Limiting**: Prevents resource exhaustion
+-  **Least Privilege Access**: Minimal IAM permissions
+-  **Workload Identity**: Secure authentication without service account keys
 
 ### Advanced Functionality
 - **Query Performance Analysis**: Get optimization recommendations
@@ -26,7 +26,7 @@ A comprehensive, secure, and production-ready natural language interface for Goo
 - **Schema Visualization**: Understand database structure
 - **Error Handling**: Graceful failure handling with retries
 
-## 📋 Prerequisites
+##  Prerequisites
 
 ### Google Cloud Requirements
 - Google Cloud Project with billing enabled
@@ -47,7 +47,7 @@ gcloud services enable \
   monitoring.googleapis.com
 ```
 
-## 🛠️ Installation & Setup
+## 🛠 Installation & Setup
 
 ### 1. Clone and Configure
 
@@ -117,7 +117,7 @@ kubectl port-forward deployment/spanner-agent 8080:8080
 # Open in browser: http://localhost:8080
 ```
 
-## 🔒 Security Configuration
+##  Security Configuration
 
 ### IAM Roles and Permissions
 
@@ -167,7 +167,7 @@ kubectl port-forward deployment/spanner-agent 8080:8080
 - Error tracking and debugging
 - Performance analysis
 
-## 🎯 Usage Examples
+##  Usage Examples
 
 ### Basic Queries
 ```
@@ -193,7 +193,7 @@ kubectl port-forward deployment/spanner-agent 8080:8080
 "Describe the relationships between tables"
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -214,7 +214,6 @@ kubectl port-forward deployment/spanner-agent 8080:8080
 - `ENABLE_TABLE_STATISTICS`: Table metadata
 - `ENABLE_HEALTH_MONITORING`: Health checks
 
-## 🚨 Troubleshooting
 
 ### Common Issues
 
@@ -253,7 +252,7 @@ kubectl patch configmap spanner-agent-config --patch '{"data":{"LOG_LEVEL":"DEBU
 kubectl rollout restart deployment spanner-agent
 ```
 
-## 📚 Learning ADK
+##  Learning ADK
 
 ### ADK Concepts
 
@@ -295,30 +294,3 @@ The agent instructions guide the LLM's behavior and capabilities, ensuring consi
 3. **Error Handling**: Implement comprehensive error handling and logging
 4. **Monitoring**: Add observability and monitoring capabilities
 5. **Testing**: Test agents thoroughly before production deployment
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests and documentation
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: [ADK Documentation](https://developers.google.com/adk)
-- **Issues**: Create an issue in this repository
-- **Security**: Report security issues privately
-
-## 🔄 Version History
-
-- **v2.0.0**: Production-grade release with security, monitoring, and advanced features
-- **v1.0.0**: Initial release with basic Spanner querying capabilities
-
----
-
-**Note**: This is a production-ready implementation. Always review and customize security settings for your specific environment and compliance requirements.
