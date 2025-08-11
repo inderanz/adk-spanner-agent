@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spanner-agent
+  labels:
+    app: spanner-agent
+spec:
+  type: ClusterIP
+  selector:
+    app: spanner-agent
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080

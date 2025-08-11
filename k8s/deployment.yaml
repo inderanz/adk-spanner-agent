@@ -1,0 +1,215 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spanner-agent
+  labels:
+    app: spanner-agent
+    version: "2.0.0"
+    environment: "production"
+    security-tier: "high"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: spanner-agent
+  template:
+    metadata:
+      labels:
+        app: spanner-agent
+        version: "2.0.0"
+        environment: "production"
+      annotations:
+        # Security annotations
+        security.kubernetes.io/least-privilege: "true"
+        security.kubernetes.io/read-only-operations: "true"
+        # Monitoring annotations
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+        # Health check annotations
+        health.kubernetes.io/readiness-probe: "/healthz"
+        health.kubernetes.io/liveness-probe: "/healthz"
+    spec:
+      serviceAccountName: spanner-agent-sa
+      
+      # Security: Prevent privilege escalation
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        # Security policies
+        seccompProfile:
+          type: RuntimeDefault
+
+      # Node selector for Workload Identity
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+
+      # Pod disruption budget
+      terminationGracePeriodSeconds: 30
+
+      # Volumes for temporary storage and secrets
+      volumes:
+      - name: tmp
+        emptyDir:
+          sizeLimit: "100Mi"
+      - name: audit-logs
+        emptyDir:
+          sizeLimit: "50Mi"
+
+      containers:
+      - name: spanner-agent
+        image: us-central1-docker.pkg.dev/extreme-gecko-466211-t1/agent-repo/spanner-agent:latest
+        imagePullPolicy: Always
+        
+        # Security context for container
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 3000
+          # Security capabilities
+          capabilities:
+            drop:
+              - ALL
+          # Security policies
+          seccompProfile:
+            type: RuntimeDefault
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        # Environment variables
+        env:
+        - name: PORT
+          value: "8080"
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "true"
+        - name: TMPDIR
+          value: /tmp
+        - name: AUDIT_LOG_DIR
+          value: /tmp/audit
+        # Security environment variables
+        - name: SPANNER_READ_ONLY
+          value: "true"
+        - name: SPANNER_MAX_ROWS
+          value: "1000"
+        - name: SPANNER_QUERY_TIMEOUT
+          value: "30"
+        - name: ENABLE_AUDIT_LOGGING
+          value: "true"
+        - name: LOG_LEVEL
+          value: "INFO"
+        # Monitoring environment variables
+        - name: ENABLE_METRICS
+          value: "true"
+        - name: METRICS_PORT
+          value: "8080"
+        
+        # ConfigMap for configuration
+        envFrom:
+        - configMapRef:
+            name: spanner-agent-config
+
+        # Resource limits and requests
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+            ephemeral-storage: "100Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+            ephemeral-storage: "200Mi"
+
+        # Volume mounts
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+          readOnly: false
+        - name: audit-logs
+          mountPath: /tmp/audit
+          readOnly: false
+
+        # Health checks
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            httpHeaders:
+            - name: User-Agent
+              value: "kube-probe/1.0"
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            httpHeaders:
+            - name: User-Agent
+              value: "kube-probe/1.0"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+            httpHeaders:
+            - name: User-Agent
+              value: "kube-probe/1.0"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 30
+
+        # Lifecycle hooks
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 10"]
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo 'Container started at $(date)' > /tmp/startup.log"]
+
+      # Pod anti-affinity for high availability
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - spanner-agent
+              topologyKey: kubernetes.io/hostname
+
+      # Tolerations for node scheduling
+      tolerations:
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
