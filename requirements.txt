@@ -1,0 +1,7 @@
+# Top-level Python dependencies for the project.  This file duplicates
+# spanner_agent/requirements.txt so that the Docker build at the root of the
+# repository works as expected.
+google-adk
+google-cloud-spanner
+fastapi
+uvicorn[standard]
